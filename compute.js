@@ -53,12 +53,12 @@ const summary = dataJSON["data"]["transactions"]["edges"].reduce(
           }
         }
 
-        tx.lowScaledCollateral =
-          tx.low / Math.pow(10, tx.collateralToken.decimals);
-        tx.lowScaledDebt = tx.low / Math.pow(10, tx.debtToken.decimals);
-        tx.highScaledCollateral =
-          tx.high / Math.pow(10, tx.collateralToken.decimals);
-        tx.highScaled = tx.high / Math.pow(10, tx.debtToken.decimals);
+        // tx.lowScaledCollateral =
+        //   tx.low / Math.pow(10, tx.collateralToken.decimals);
+        tx.lowScaled = tx.low / Math.pow(10, 18);
+        // tx.highScaledCollateral =
+        //   tx.high / Math.pow(10, tx.collateralToken.decimals);
+        // tx.highScaled = tx.high / Math.pow(10, tx.debtToken.decimals);
 
         cur.txs.push(tx);
         cur.totalLiquidated += tx.low;
@@ -80,14 +80,9 @@ const summary = dataJSON["data"]["transactions"]["edges"].reduce(
 
         cur.collateralTokens[tx.collateralToken.address].count++;
         cur.collateralTokens[tx.collateralToken.address].total +=
-          tx.low /
-          Math.pow(
-            10,
-            cur.collateralTokens[tx.collateralToken.address].decimals,
-          );
+          tx.low / Math.pow(10, 18);
         cur.debtTokens[tx.debtToken.address].count++;
-        cur.debtTokens[tx.debtToken.address].total +=
-          tx.low / Math.pow(10, cur.debtTokens[tx.debtToken.address].decimals);
+        cur.debtTokens[tx.debtToken.address].total += tx.low / Math.pow(10, 18);
       }
     }
 
